@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  minimundo.webapp:
+    image: ${DOCKER_REGISTRY-}minimundowebapp
+    build:
+      context: .
+      dockerfile: MiniMundo.WebApp/Dockerfile
+    container_name: minimundo-webapp
+    restart: always
+    #secrets:
+    #- my_external_secret
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=server=db;port=3306;database=minimundodb;user=takemoto;password=pass1234;
+    networks:
+      - minimundo-network
+  db: # Serviço do banco de dados MySQL
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: minimundodb     # Nome do banco de dados
+      MYSQL_USER: takemoto            # Usuário do banco de dados
+      MYSQL_PASSWORD: pass1234        # Senha do usuário
+      MYSQL_ROOT_PASSWORD: pass1234   # Senha do usuário root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql        # Persistência dos dados
+    networks:
+      - minimundo-network
+#secrets:
+ #   my_external_secret:
+ #       external: true
+  #  my_file_secret:
+  #      file: my_file_secret.txt
+
+# Volume para persistência de dados do MySQL
+volumes:
+  db-data:
+
+# Rede personalizada
+networks:
+  minimundo-network:

@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\DockerProjects\\MiniMundo\\MiniMundo.WebApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\MiniMundo.WebApp.bundle.scp.css",
+      "PackagePath": "staticwebassets\\MiniMundo.WebApp.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\DockerProjects\\MiniMundo\\MiniMundo.WebApp\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "D:\\DockerProjects\\MiniMundo\\MiniMundo.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\DockerProjects\\MiniMundo\\MiniMundo.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\DockerProjects\\MiniMundo\\MiniMundo.WebApp\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MiniMundo.WebApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.MiniMundo.WebApp.props",
+      "PackagePath": "build\\MiniMundo.WebApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.MiniMundo.WebApp.props",
+      "PackagePath": "buildMultiTargeting\\MiniMundo.WebApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.MiniMundo.WebApp.props",
+      "PackagePath": "buildTransitive\\MiniMundo.WebApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

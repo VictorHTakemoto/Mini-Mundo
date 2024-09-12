@@ -1,0 +1,91 @@
+﻿@page "/cliente-manager"
+@using MiniMundo.WebApp.Controller
+@using MiniMundo.WebApp.Model
+@rendermode InteractiveServer
+@inject ClienteController clienteController
+@inject ClienteModel clienteModel
+
+<PageTitle>Cadastro Clientes</PageTitle>
+
+<h3>Bem Vindo!</h3>
+
+<!-- Add Client Form -->
+<div class="container-fluid">
+    <div class="row px-3">
+        <div style="display: grid; grid-template-columns: repeat(1, 400px); gap: 10px;"> 
+            <h1 style="font-size:22px; font-family: 'Trebuchet MS' ">Cadastro de Clientes</h1>
+            <input type="text" id="NomeCli" placeholder="Nome Completo" max="150" @bind="clienteModel.NomeCliente" />
+            <input type="text" id="EmailCli" placeholder="Email Cliente" maxlength="150" @bind="clienteModel.EmailCliente" />
+            <input type="text" id="CepCli" placeholder="CEP" maxlength="8" @bind="clienteModel.CEP" @oninput="OnCepInput" />
+            <input type="text" id="RuaCli" placeholder="Logradouro" maxlength="150" @bind="clienteModel.Rua" />
+            <input type="text" id="NumeroCli" placeholder="Numero da casa" maxlength="150" @bind="clienteModel.Numero" />
+            <input type="text" id="BairroCli" placeholder="Bairro" maxlength="150" @bind="clienteModel.Bairro" />
+            <input type="text" id="CidadeCli" placeholder="Cidade" maxlength="150" @bind="clienteModel.Cidade" />
+            <input type="text" id="EstadoCli" placeholder="Estado" maxlength="150" @bind="clienteModel.Estado" />
+            <input type="text" id="TelefoneCli" placeholder="Telefone" maxlength="150" @bind="clienteModel.TelefoneCliente" />
+            <button @onclick="async () => SalvarCliente()">Cadastrar</button>
+            <p style="color: red">@mensagem</p>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private string mensagem;
+
+    public async Task SalvarCliente()
+    {
+        if(!IsClienteModelValido(clienteModel))
+        {
+            mensagem = "Dados do cliente inválidos";
+            return;
+        }
+        mensagem = await clienteController.NovoCadCliente(clienteModel);
+    }
+
+    private async Task OnCepInput(ChangeEventArgs e)
+    {
+        clienteModel.CEP = e.Value.ToString();
+
+        if (clienteModel.CEP.Length == 8)
+        {
+            await ConsultarCep();
+        }
+    }
+
+    //Funcao para consultar CEP
+    private async Task ConsultarCep()
+    {
+        using var httpClient = new HttpClient();
+        var response = await httpClient.GetAsync($"https://viacep.com.br/ws/{clienteModel.CEP}/json/");
+        if (response.IsSuccessStatusCode)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            var endereco = Newtonsoft.Json.JsonConvert.DeserializeObject<Endereco>(json);
+            if(endereco != null)
+            {
+                clienteModel.Rua = endereco.Logradouro ?? string.Empty;
+                clienteModel.Bairro = endereco.Bairro ?? string.Empty;
+                clienteModel.Cidade = endereco.Localidade ?? string.Empty;
+                clienteModel.Estado = endereco.Uf ?? string.Empty;
+            }
+        }
+    }
+
+    private class Endereco
+    {
+        public string Logradouro { get; set; }
+        public string Bairro { get; set; }
+        public string Localidade { get; set; }
+        public string Uf { get; set; }
+    }
+
+    private bool IsClienteModelValido(ClienteModel cliente)
+    {
+        // Verifica se o cliente não é nulo e se todos os campos obrigatórios estão preenchidos
+        return cliente != null &&
+               !string.IsNullOrEmpty(cliente.NomeCliente) &&
+               !string.IsNullOrEmpty(cliente.EmailCliente) &&
+               !string.IsNullOrEmpty(cliente.Rua);
+    }
+}

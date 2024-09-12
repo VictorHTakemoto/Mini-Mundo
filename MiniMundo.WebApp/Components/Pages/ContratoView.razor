@@ -1,0 +1,116 @@
+﻿@page "/contrato-view"
+@using MiniMundo.DAL.Model.Entity
+@using MiniMundo.WebApp.Controller
+@rendermode InteractiveServer
+@inject ClienteController clienteController
+@inject ContratoController contratoController
+
+
+<PageTitle>Cadastro contratos</PageTitle>
+
+<div class="container-fluid">
+    <div class="row px-3">
+        <div style="display: grid; grid-template-columns: repeat(1, 400px); gap: 10px;">
+            <h3>Lista de Clientes</h3>
+            @if (clientes == null)
+            {
+                <p><em>Carregando...</em></p>
+            }
+            else
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>CEP</th>
+                            <th>Logradouro</th>
+                            <th>Número</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th>Telefone</th>
+                            <th>Data Cadastro</th>
+                            <!-- Coluna para os botões -->
+                            <th>ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cliente in clientes)
+                        {
+                            <tr>
+                                <td>@cliente.NomeCliente</td>
+                                <td>@cliente.EmailCliente</td>
+                                <td>@cliente.CEP</td>
+                                <td>@cliente.Rua</td>
+                                <td>@cliente.Numero</td>
+                                <td>@cliente.Cidade</td>
+                                <td>@cliente.Estado</td>
+                                <td>@cliente.TelefoneCliente</td>
+                                <td>@cliente.DataCadastroCliente</td>
+                                <td>
+                                    <!-- Botão para selecionar o cliente -->
+                                    <button class="btn btn-primary" @onclick="() => SelecionarCliente(cliente)">Selecionar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @if (clienteSelecionado != null)
+                {
+                    <h4>Cliente Selecionado:</h4>
+                    <p>Nome: @clienteSelecionado.NomeCliente</p>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row px-3">
+        <div style="display: grid; grid-template-columns: repeat(1, 400px); gap: 10px;">
+            <!-- Formulário para criar novo contrato -->
+            <h1>Criar Novo Contrato</h1>
+            <input type="text" id="DescricaoCont" placeholder="Descrição do Contrato" max="150" @bind="descricaoContrato"/>
+            <button class="btn btn-success" @onclick="CriarContrato">Cadastrar</button>
+            <p style="color: red">@mensagem</p>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    //private Cliente clientes;
+    private List<Cliente> clientes;
+    private Cliente clienteSelecionado;
+    private string descricaoContrato;
+    private string mensagem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        clientes = await clienteController.BuscarClientes();
+    }
+
+    private void SelecionarCliente(Cliente cliente)
+    {
+        //Armazena o cliente selecionado
+        clienteSelecionado = cliente;
+    }
+
+    private async Task CriarContrato()
+    {
+        if(clienteSelecionado == null)
+        {
+            mensagem = "Selecione um cliente antes de criar o contrato.";
+            return;
+        }
+        // Cria um novo contrato e associa o ID do cliente selecionado
+        var novoContrato = new Contrato
+        {
+            Descricao = descricaoContrato,
+            ClienteId = clienteSelecionado.IdCliente,
+        };
+        // Chama o serviço para salvar o contrato no banco
+        var resultado = await contratoController.NovoCadContratoAsync(novoContrato);
+
+        mensagem = resultado ? "Contrato criado com sucesso!" : "Erro ao criar contrato.";
+    }
+}

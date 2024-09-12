@@ -1,0 +1,78 @@
+name: dockercompose13780139050854085965
+services:
+  db:
+    container_name: mysql-db
+    environment:
+      MYSQL_DATABASE: minimundodb
+      MYSQL_PASSWORD: pass1234
+      MYSQL_ROOT_PASSWORD: pass1234
+      MYSQL_USER: takemoto
+    image: mysql:8.0
+    networks:
+      minimundo-network: null
+    ports:
+      - mode: ingress
+        target: 3306
+        published: "3306"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/mysql
+        volume: {}
+  minimundo.webapp:
+    build:
+      context: D:\DockerProjects\MiniMundo
+      dockerfile: MiniMundo.WebApp/Dockerfile
+    container_name: minimundo-webapp
+    depends_on:
+      db:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ASPNETCORE_HTTPS_PORTS: "8081"
+      CONNECTION_STRING: /run/secrets/db_connection_string
+    image: minimundowebapp
+    networks:
+      minimundo-network: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8080"
+        protocol: tcp
+      - mode: ingress
+        target: 8080
+        protocol: tcp
+      - mode: ingress
+        target: 8081
+        protocol: tcp
+    restart: always
+    secrets:
+      - source: my_external_secret
+        target: /run/secrets/my_external_secret
+    volumes:
+      - type: bind
+        source: C:\Users\victo\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\victo\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+networks:
+  minimundo-network:
+    name: dockercompose13780139050854085965_minimundo-network
+volumes:
+  db-data:
+    name: dockercompose13780139050854085965_db-data
+secrets:
+  my_external_secret:
+    name: my_external_secret
+    external: true

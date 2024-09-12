@@ -1,0 +1,14 @@
+# Ignorar o diretório .vs e todos os seus arquivos
+.vs/
+
+# Ignorar o diretório .idea e todos os seus arquivos
+.idea/
+
+# Ignorar arquivos específicos dentro do diretório .vs
+.vs/MiniMundo/FileContentIndex/
+
+# Ignorar arquivos de configuração locais
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
