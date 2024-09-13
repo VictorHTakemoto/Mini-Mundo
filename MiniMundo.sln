@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniMundo.WebApp", "MiniMundo.WebApp\MiniMundo.WebApp.csproj", "{B44523B7-3F76-4B45-8B7D-6741852528AA}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{87F1C4B3-8056-410B-8022-7801600918FB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BDD66CF8-A620-41CE-8934-02FEB6DB81DD} = {BDD66CF8-A620-41CE-8934-02FEB6DB81DD}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

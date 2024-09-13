@@ -31,7 +31,7 @@ services:
       labels:
         com.microsoft.created-by: visual-studio
         com.microsoft.visual-studio.project-name: MiniMundo.WebApp
-      target: base
+      target: build-env
     container_name: minimundo-webapp
     depends_on:
       db:
@@ -48,7 +48,7 @@ services:
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_HTTPS_PORTS: "8081"
       ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
-      CONNECTION_STRING: /run/secrets/db_connection_string
+      ConnectionStrings__DefaultConnection: server=db;port=3306;database=minimundodb;user=takemoto;password=pass1234;
       DOTNET_USE_POLLING_FILE_WATCHER: "1"
       NUGET_FALLBACK_PACKAGES: /.nuget/fallbackpackages
     image: minimundowebapp:dev
@@ -71,9 +71,6 @@ services:
         target: 8081
         protocol: tcp
     restart: always
-    secrets:
-      - source: my_external_secret
-        target: /run/secrets/my_external_secret
     tty: true
     volumes:
       - type: bind
@@ -145,7 +142,3 @@ networks:
 volumes:
   db-data:
     name: dockercompose13780139050854085965_db-data
-secrets:
-  my_external_secret:
-    name: my_external_secret
-    external: true

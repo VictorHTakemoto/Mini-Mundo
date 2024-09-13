@@ -54,6 +54,7 @@ D:\DockerProjects\MiniMundo\MiniMundo.WebApp\obj\Debug\net8.0\MiniMundo.WebApp.A
 D:\DockerProjects\MiniMundo\MiniMundo.WebApp\obj\Debug\net8.0\MiniMundo.WebApp.AssemblyInfo.cs
 D:\DockerProjects\MiniMundo\MiniMundo.WebApp\obj\Debug\net8.0\MiniMundo.WebApp.csproj.CoreCompileInputs.cache
 D:\DockerProjects\MiniMundo\MiniMundo.WebApp\obj\Debug\net8.0\MiniMundo.WebApp.MvcApplicationPartsAssemblyInfo.cache
+D:\DockerProjects\MiniMundo\MiniMundo.WebApp\obj\Debug\net8.0\MiniMundo.WebApp.sourcelink.json
 D:\DockerProjects\MiniMundo\MiniMundo.WebApp\obj\Debug\net8.0\staticwebassets.build.json
 D:\DockerProjects\MiniMundo\MiniMundo.WebApp\obj\Debug\net8.0\staticwebassets.development.json
 D:\DockerProjects\MiniMundo\MiniMundo.WebApp\obj\Debug\net8.0\staticwebassets\msbuild.MiniMundo.WebApp.Microsoft.AspNetCore.StaticWebAssets.props

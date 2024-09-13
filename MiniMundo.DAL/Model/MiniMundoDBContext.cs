@@ -17,22 +17,26 @@ public partial class MiniMundoDBContext : DbContext
     //Configuracao de conexao com DB
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //Desserialização do arquivo json que contem a string de conexao
-        string paramsJson = AppContext.BaseDirectory + "\\params.json";
-        JObject globalParams = JObject.Parse(File.ReadAllText(paramsJson));
         try
         {
-            IConfigurationRoot config = new ConfigurationBuilder()
+            //Desserialização do arquivo json que contem a string de conexao
+            string paramsJson = "/src/MiniMundo.DAL/params.json";
+            JObject globalParams = JObject.Parse(File.ReadAllText(paramsJson));
+
+            if (globalParams["NomeAppSettings"] != null && globalParams["DBConnection"] != null)
+            {
+                IConfigurationRoot config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile(globalParams["NomeAppSettings"].ToString())
                 .Build();
-            if (!optionsBuilder.IsConfigured)
-            {
-                var connString = config.GetConnectionString(globalParams["DBConnection"].ToString());
-                optionsBuilder.UseMySql(connString, ServerVersion.AutoDetect(connString))
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
+                if (!optionsBuilder.IsConfigured)
+                {
+                    var connString = config.GetConnectionString(globalParams["DBConnection"].ToString());
+                    optionsBuilder.UseMySql(connString, ServerVersion.AutoDetect(connString))
+                    .LogTo(Console.WriteLine, LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+                }
             }
         }
         catch (Exception ex)

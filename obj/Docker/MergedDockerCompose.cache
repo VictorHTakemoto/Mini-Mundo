@@ -34,7 +34,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_HTTPS_PORTS: "8081"
-      CONNECTION_STRING: /run/secrets/db_connection_string
+      ConnectionStrings__DefaultConnection: server=db;port=3306;database=minimundodb;user=takemoto;password=pass1234;
     image: minimundowebapp
     networks:
       minimundo-network: null
@@ -50,9 +50,6 @@ services:
         target: 8081
         protocol: tcp
     restart: always
-    secrets:
-      - source: my_external_secret
-        target: /run/secrets/my_external_secret
     volumes:
       - type: bind
         source: C:\Users\victo\AppData\Roaming/Microsoft/UserSecrets
@@ -72,7 +69,3 @@ networks:
 volumes:
   db-data:
     name: dockercompose13780139050854085965_db-data
-secrets:
-  my_external_secret:
-    name: my_external_secret
-    external: true

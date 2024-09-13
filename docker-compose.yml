@@ -19,6 +19,7 @@ services:
       - ConnectionStrings__DefaultConnection=server=db;port=3306;database=minimundodb;user=takemoto;password=pass1234;
     networks:
       - minimundo-network
+
   db: # Serviço do banco de dados MySQL
     image: mysql:8.0
     container_name: mysql-db
@@ -33,7 +34,9 @@ services:
     volumes:
       - db-data:/var/lib/mysql        # Persistência dos dados
     networks:
-      - minimundo-network
+      - minimundo-network   
+
+
 #secrets:
  #   my_external_secret:
  #       external: true
@@ -41,6 +44,8 @@ services:
   #      file: my_file_secret.txt
 
 # Volume para persistência de dados do MySQL
+
+   
 volumes:
   db-data:
 
