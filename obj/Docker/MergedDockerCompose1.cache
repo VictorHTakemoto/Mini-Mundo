@@ -31,7 +31,7 @@ services:
       labels:
         com.microsoft.created-by: visual-studio
         com.microsoft.visual-studio.project-name: MiniMundo.WebApp
-      target: build-env
+      target: base-env
     container_name: minimundo-webapp
     depends_on:
       db:

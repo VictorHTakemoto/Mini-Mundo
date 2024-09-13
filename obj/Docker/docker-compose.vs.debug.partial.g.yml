@@ -5,7 +5,7 @@ services:
       args:
         LAUNCHING_FROM_VS: true
         BUILD_CONFIGURATION: Debug
-      target: build-env
+      target: base-env
       labels:
         com.microsoft.created-by: "visual-studio"
         com.microsoft.visual-studio.project-name: "MiniMundo.WebApp"
